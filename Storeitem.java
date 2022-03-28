@@ -29,7 +29,7 @@ public class Storeitem {
 			ps.setInt(5,itemstock);
 			if(ps.executeUpdate()>0)
 				System.out.println("items added sucessfully! in store ");
-		}
+		} 
 		else
 		{
 			System.out.println("store doesnot exists!");
