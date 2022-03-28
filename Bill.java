@@ -1,19 +1,20 @@
 import java.util.*;
 import java.sql.*;
-public class Bill
+public class Bill 
 {
 	private int cid;
 	private String cname;
 	//private String date;
 	private int sid;
 	static String query;
+	//private int sum;
 	static Scanner sc=new Scanner(System.in);
 	Bill(int cid,int sid)
 	{
 		this.cid=cid;
 		this.sid=sid;
 	}
-	void startAddBillItems(Connection con)throws Exception
+	void startAddBillItems(Connection con) throws Exception
 	{
 		HashMap<Integer,Integer> hm=new HashMap<Integer,Integer>(); 
 		Statement st=con.createStatement();
@@ -142,15 +143,18 @@ public class Bill
 		System.out.println("                     bill details    ");
 		rs.next();
 		System.out.println("BILLID: "+rs.getInt("billid")+"  , STOREID: "+rs.getInt("storeid")+"CUSTOMER ID: "+rs.getInt("cusid")+" ,  "+"CUSTOMER NAME:  "+rs.getString("cusname")+"  ,  "+"BILL DATE: "+rs.getString("date"));
+		int sum1=rs.getInt("amount");
 		query=String.format("select bills.billid, bills.cusid, bills.cusname ,bills.date,billitems.itemid,billitems.itemname,billitems.itemprice,billitems.quantity,billitems.value,billitems.discountpercentage,billitems.price from bills inner join billitems on bills.billid=billitems.billid and bills.billid=%d",bid);
 		rs=st.executeQuery(query);
-		System.out.println(" ITEMID : ITEMNAME : ITEMPRICE     : QUANTITY : VALUE : DISCOUNT : PRICE ");
+		System.out.println(" ITEMID : ITEMNAME : ITEMPRICE  : QUANTITY : VALUE : DISCOUNT : PRICE ");
 		while(rs.next())
 		{
 			sum+=rs.getInt("price");
-			System.out.println("    " +rs.getInt("itemid")+",  "+rs.getString("itemname")+" , "+rs.getString("itemprice")+" , "+rs.getInt("quantity")+" ,   "+rs.getInt("value")+",   "+rs.getInt("discountpercentage")+",   "+rs.getInt("price"));
+			System.out.println("    " +rs.getInt("itemid")+",        "+rs.getString("itemname")+" , "+rs.getString("itemprice")+" ,        "+rs.getInt("quantity")+" ,       "+rs.getInt("value")+",   "+rs.getInt("discountpercentage")+",   "+rs.getInt("price"));
 		}
-		System.out.println("                            TOTAL SUM ="+sum);
+		System.out.println("                                                 total price  "+sum);
+		System.out.println("Total including your bill level discount ");
+		System.out.println("                                           FINAL  AMOUNT ="+sum1);
 	}
 	static void deleteBill(int bid,Connection con) throws Exception
 	{
