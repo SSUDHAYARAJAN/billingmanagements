@@ -26,7 +26,7 @@ public class Billingmanagement {
 					Add.addBill(con);
 				else if(choice2==4)
 					Add.addStore(con);
-				else if(choice2==5)
+				else if(choice2==5) 
 				{
 					System.out.println("enter store id: ");
 					int n=sc.nextInt();
